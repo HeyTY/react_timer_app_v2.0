@@ -30,12 +30,33 @@ var Countdown = React.createClass({
 		}
 	},
 
+	// Mounts before DOM or refs, cannot fetch values
+	// componentWillMount: function () {
+	// 	console.log("componentWillMount");
+	// },
+	// Mounts after DOM, has access to refs and values
+	// componentDidMount: function () {
+	// 	console.log("componentsDidMount")
+	// },
+
+
+	// Removes component
+	componentWillUnmount: function () {
+		console.log("componentDidUnmount");
+		clearInterval(this.timer);
+		this.timer = undefined;
+	},
+
 	startTimer: function () {
 		this.timer= setInterval(() => {
 			var newCount = this.state.count -1;
 			this.setState({
 				count: newCount >= 0 ? newCount : 0
 			});
+
+			if(newCount === 0 ) {
+				this.setState({countdownStatus: "stopped"});
+			}
 		},1000);
 	},	
 
